@@ -15,7 +15,7 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        $messages = Message::all();
+        $messages = Message::orderBy("id", "desc")->paginate(25);
         
         return view("messages.index",[
             "messages" => $messages,
@@ -97,6 +97,9 @@ class MessagesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+       
+        
         $request->validate([
             "content" => "required|max:255",
             "title" => "required|max:255",
@@ -106,6 +109,8 @@ class MessagesController extends Controller
         
         $message->title = $request->title;
         $message->content = $request->content;
+        
+        
         $message->save();
         
         return redirect("/");
